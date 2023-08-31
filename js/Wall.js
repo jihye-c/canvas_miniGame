@@ -1,4 +1,5 @@
 import App from "./App.js";
+import { randomNumberBetween } from "./utils.js";
 
 export default class Wall{
     constructor(config){
@@ -16,15 +17,36 @@ export default class Wall{
         }
         this.width = App.height * this.sizeX
         this.height = App.height;
+        this.gapY = randomNumberBetween(App.height * 0.16, App.height * 0.5)
+        this.x = App.width;
+        this.y1 = -this.height + randomNumberBetween(30, App.height - this.gapY - 30)
+        this.y2 = this.y1 + this.height + this.gapY;
+
+        this.generatedNext = false
+        this.gapNextX = App.width * randomNumberBetween(0.2,0.8)
+    }
+    get isOutSide(){
+        return this.x + this.width < 0
+    }
+    get canGenerateNext(){
+        return (
+            !this.generatedNext && 
+            this.x + this.width < this.gapNextX
+        )
     }
     update(){
-
+        this.x += -6;
     }
     draw(){
         App.ctx.drawImage(
             this.img,
             this.sx, 0, this.img.width * this.sizeX , this.img.height,
-            0, 0, this.width, this.height
-            )
+            this.x, this.y1, this.width, this.height
+        )
+        App.ctx.drawImage(
+            this.img,
+            this.sx, 0, this.img.width * this.sizeX , this.img.height,
+            this.x, this.y2, this.width, this.height
+        )
     }
 }

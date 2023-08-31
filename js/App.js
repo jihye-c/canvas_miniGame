@@ -16,7 +16,7 @@ export default class App{
             new Background({img:document.querySelector('#bg1-img'),speed : -4}),
         ]
         this.walls = [
-            new Wall({type:'BIG'})
+            new Wall({type:'SMALL'})
         ]
         window.addEventListener('resize', this.resize.bind(this))
     }
@@ -39,14 +39,27 @@ export default class App{
             if(delta < App.interval) return;
             //write code here
 
+            //Background
             this.backgrounds.forEach(background => {
                 background.update();
                 background.draw();
             })
-            this.walls.forEach((wall)=>{
-                wall.update();
-                wall.draw();
-            })
+
+            //Walls
+            for(let i = this.walls.length -1;  i>=0; i--){
+                this.walls[i].update();
+                this.walls[i].draw();
+                //remove wall
+                if(this.walls[i].isOutSide){
+                    this.walls.splice(i,1)
+                    continue
+                }
+                if(this.walls[i].canGenerateNext){
+                    this.walls[i].generatedNext = true;
+                    this.walls.push(new Wall({type : Math.random() > 0.3 ? 'SMALL' : 'BIG'}))
+                }
+            }
+            
 
             then = now - (delta % App.interval);
         }
