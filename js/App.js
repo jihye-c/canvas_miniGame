@@ -1,4 +1,5 @@
 import Background from "./Background.js";
+import Player from "./Player.js";
 import Wall from "./Wall.js";
 
 export default class App{
@@ -18,6 +19,7 @@ export default class App{
         this.walls = [
             new Wall({type:'SMALL'})
         ]
+        this.player = new Player();
         window.addEventListener('resize', this.resize.bind(this))
     }
     resize(){
@@ -35,7 +37,7 @@ export default class App{
         const frame = () => {
             requestAnimationFrame(frame);
             now = Date.now();
-            delta = now - delta;
+            delta = now - then;
             if(delta < App.interval) return;
             //write code here
 
@@ -60,6 +62,8 @@ export default class App{
                 }
             }
             
+            this.player.update()
+            this.player.draw()
 
             then = now - (delta % App.interval);
         }
