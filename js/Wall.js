@@ -1,4 +1,5 @@
 import App from "./App.js";
+import BoundingBox from "./BoundingBox.js";
 import { randomNumberBetween } from "./utils.js";
 
 export default class Wall{
@@ -21,9 +22,12 @@ export default class Wall{
         this.x = App.width;
         this.y1 = -this.height + randomNumberBetween(30, App.height - this.gapY - 30)
         this.y2 = this.y1 + this.height + this.gapY;
-
         this.generatedNext = false
         this.gapNextX = App.width * randomNumberBetween(0.2,0.8)
+
+        this.subtractArea = 45;
+        this.boundingBox1 = new BoundingBox(this.x + this.subtractArea, this.y1 + this.subtractArea, this.width - this.subtractArea*2, this.height - this.subtractArea * 2);
+        this.boundingBox2 = new BoundingBox(this.x + this.subtractArea, this.y2 + this.subtractArea, this.width - this.subtractArea*2, this.height - this.subtractArea * 2);
     }
     get isOutSide(){
         return this.x + this.width < 0
@@ -36,6 +40,13 @@ export default class Wall{
     }
     update(){
         this.x += -6;
+        this.boundingBox1.x = this.boundingBox2.x = this.x + this.subtractArea
+    }
+    isColliding(target){
+        return(
+            this.boundingBox1.isColliding(target) ||
+            this.boundingBox2.isColliding(target)
+        )
     }
     draw(){
         App.ctx.drawImage(
@@ -48,5 +59,7 @@ export default class Wall{
             this.sx, 0, this.img.width * this.sizeX , this.img.height,
             this.x, this.y2, this.width, this.height
         )
+        this.boundingBox1.draw()
+        this.boundingBox2.draw();
     }
 }

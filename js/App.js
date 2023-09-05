@@ -60,8 +60,15 @@ export default class App{
                     this.walls[i].generatedNext = true;
                     this.walls.push(new Wall({type : Math.random() > 0.3 ? 'SMALL' : 'BIG'}))
                 }
+                if(this.walls[i].isColliding(this.player.boundingBox)){
+                    this.player.boundingBox.color = `rgba(255,0,0,.5)`
+                }
+                else{
+                    this.player.boundingBox.color = `rgba(0,0,255,.2)`
+                }
             }
             
+            //Player
             this.player.update()
             this.player.draw()
 
