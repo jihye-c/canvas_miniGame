@@ -62,7 +62,7 @@ export default class App{
                     this.walls[i].generatedNext = true;
                     const newWall = new Wall({type : Math.random() > 0.3 ? 'SMALL' : 'BIG'})
                     this.walls.push(newWall)
-                    if(Math.random() < 0.5){
+                    if(Math.random() < 1){
                         const x = newWall.x + newWall.width / 2
                         const y = newWall.y2 - newWall.gapY / 2
                         this.coins.push(new Coin(x,y,newWall.vx))
@@ -87,6 +87,10 @@ export default class App{
                 this.coins[i].update();
                 this.coins[i].draw();
                 if(this.coins[i].x + this.coins[i].width < 0){
+                    this.coins.splice(i, 1);
+                    continue
+                }
+                if(this.coins[i].boundingBox.isColliding(this.player.boundingBox)){
                     this.coins.splice(i, 1);
                 }
             }

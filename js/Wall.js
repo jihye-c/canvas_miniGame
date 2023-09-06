@@ -61,7 +61,7 @@ export default class Wall{
             this.sx, 0, this.img.width * this.sizeX , this.img.height,
             this.x, this.y2, this.width, this.height
         )
-        this.boundingBox1.draw()
-        this.boundingBox2.draw();
+        // this.boundingBox1.draw();
+        // this.boundingBox2.draw();
     }
 }
