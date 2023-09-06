@@ -20,6 +20,7 @@ export default class Wall{
         this.height = App.height;
         this.gapY = randomNumberBetween(App.height * 0.16, App.height * 0.5)
         this.x = App.width;
+        this.vx = -6;
         this.y1 = -this.height + randomNumberBetween(30, App.height - this.gapY - 30)
         this.y2 = this.y1 + this.height + this.gapY;
         this.generatedNext = false
@@ -39,7 +40,7 @@ export default class Wall{
         )
     }
     update(){
-        this.x += -6;
+        this.x += this.vx;
         this.boundingBox1.x = this.boundingBox2.x = this.x + this.subtractArea
     }
     isColliding(target){
@@ -49,6 +50,7 @@ export default class Wall{
         )
     }
     draw(){
+
         App.ctx.drawImage(
             this.img,
             this.sx, 0, this.img.width * this.sizeX , this.img.height,
