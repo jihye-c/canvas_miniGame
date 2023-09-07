@@ -56,7 +56,7 @@ export default class Wall{
             this.sx, 0, this.img.width * this.sizeX , this.img.height,
             this.x, this.y1, this.width, this.height
         )
-        App.ctx.drawImage(
+        App.ctx.drawImage( 
             this.img,
             this.sx, 0, this.img.width * this.sizeX , this.img.height,
             this.x, this.y2, this.width, this.height

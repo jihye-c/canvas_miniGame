@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mini game</title>
     <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
     <img src="./asset/bg1.png" id="bg1-img" class="asset-img">
@@ -13,8 +23,18 @@
     <img src="./asset/wall.png" id="wall-img" class="asset-img">
     <img src="./asset/bird.png" id="bird-img" class="asset-img">
     <img src="./asset/coin.png" id="coin-img" class="asset-img">
-
-    <canvas></canvas>
+    <main>
+        <section class="ready-screen">
+            <img src="./asset/title.png" class="title-img">
+            <img src="./asset/play.svg" class="play-img">
+        </section>
+        <section class="finish-screen">
+            <div class="distance">0m</div>
+            <div class="coin">0 Coin</div>
+            <img src="./asset/replay.svg" class="replay-img">
+        </section>
+        <canvas></canvas>
+    </main>
 </body>
 <script type="module" src="./index.js"></script>
 </html>

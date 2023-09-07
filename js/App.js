@@ -1,6 +1,8 @@
 import Background from "./Background.js";
 import Coin from "./Coin.js";
+import GameHandler from "./GameHandler.js";
 import Player from "./Player.js";
+import Score from "./Score.js";
 import Wall from "./Wall.js";
 
 export default class App{
@@ -22,16 +24,25 @@ export default class App{
         this.coins = [
             new Coin(700 + this.walls[0].width/2, this.walls[0].y2-this.walls[0].gapY / 2)
         ];
-        window.addEventListener('resize', this.resize.bind(this))
+        this.score = new Score();
+        this.gameHandler = new GameHandler(this);
+        this.reset();
     }
-    resize(){
+    reset(){
+        this.walls = [new Wall({type:'SMALL'})]
+        this.player = new Player();
+        this.coins = [
+            new Coin(700 + this.walls[0].width/2, this.walls[0].y2-this.walls[0].gapY / 2)
+        ];
+        this.score = new Score();
+    }
+    init(){
         App.canvas.width = App.width * App.dpr;
         App.canvas.height = App.height * App.dpr;
         App.ctx.scale(App.dpr, App.dpr)
-
-        const width = innerWidth > innerHeight ? innerHeight * 0.9 : innerWidth * 0.9
-        App.canvas.style.width = width + 'px'
-        App.canvas.style.height = width * (3/4) + 'px'
+        this.backgrounds.forEach(background => {
+            background.draw();
+        });
     }
     render(){
         let now, delta;
@@ -42,6 +53,8 @@ export default class App{
             delta = now - then;
             if(delta < App.interval) return;
             //write code here
+
+            if(this.gameHandler.status !== 'PLAYING') return;
 
             //Background
             this.backgrounds.forEach(background => {
@@ -71,16 +84,17 @@ export default class App{
 
                 //colliding
                 if(this.walls[i].isColliding(this.player.boundingBox)){
-                    this.player.boundingBox.color = `rgba(255,0,0,.5)`
-                }
-                else{
-                    this.player.boundingBox.color = `rgba(0,0,255,.2)`
+                    this.gameHandler.status = 'FINISHED'
+                    break
                 }
             }
             
             //Player
             this.player.update()
             this.player.draw()
+            if(this.player.y >= App.height || this.player.y + this.player.height <= 0){
+                this.gameHandler.status = 'FINISHED'
+            }
 
             //Coin
             for (let i = this.coins.length - 1; i >=0; i--){
@@ -92,8 +106,13 @@ export default class App{
                 }
                 if(this.coins[i].boundingBox.isColliding(this.player.boundingBox)){
                     this.coins.splice(i, 1);
+                    this.score.coinCount += 1;
                 }
             }
+
+            //score
+            this.score.update();
+            this.score.draw();
 
             then = now - (delta % App.interval);
         }
